@@ -1,10 +1,9 @@
 # MITM-cheatsheet
-We tried to put together all known MITM attacks and methods of protection against these attacks. Here is also contains tools for carrying out MITM attacks, some interesting attack cases and some tricks associated with them.
+Мы постарались собрать воедино все известные MITM-атаки и методы защиты от них. Здесь также представлены инструменты для проведения MITM-атак, некоторые интересные случаи атак и связанные с ними хитрости.
 
-**Note:**  Almost all attack tools, described here, doesn't have any sniffer inside. It only provides attack. Tools for sniffing here: [Data sniffing](#data-sniffing). 
+**Note:**  Примечание: Практически все описанные здесь инструменты атаки не имеют внутри себя сниффера. Они обеспечивают только атаку. Инструменты для сниффинга здесь: [Data sniffing](#data-sniffing). 
 
-A cheat sheet for pentesters and defensive teams about Man In The Middle attacks.
-
+Шпаргалка для пентестеров и команд защиты об атаках типа Man In The Middle.
 ## Table of Contents  
 * [L2](#l2)  
 	* [Arp spoofing](#arp-spoofing)
