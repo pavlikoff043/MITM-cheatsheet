@@ -353,135 +353,135 @@ RIP реализован;
 
 Как указано в RFC 2453, маршрутизатор RIPv2 должен обмениваться информацией о маршрутизации каждые 30 секунд. Суть атаки заключается в отправке поддельных сообщений RIP Response, содержащих маршрут, который злоумышленнику необходимо внедрить. Хотя для маршрутизаторов RIPv2 существует специальная многоадресная рассылка - 224.0.0.9, ответы, посланные как одноадресные, также могут быть приняты. Это, например, может затруднить обнаружение атаки, по сравнению со случаем распространения многоадресной поддельной маршрутизации. Существует хорошая короткая статья [write up](https://microlab.red/2018/04/06/practical-routing-attacks-1-3-rip/) о взломе RIPv2-сети без RIPv2-аутентификации на примере использования Scapy.  
 
-**Attack tools**  
-* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP.
+**Атакующие инструменты**  
+* [t50](https://gitlab.com/fredericopissarra/t50) - многопротокольный инструмент для инжекции трафика и тестирования на проникновение в сеть. Среди многих других протоколов поддерживает RIP.
   
-**Defence technics**  
-If router is not configured to authenticate RIPv2 messages, it will accept RIPv1 and RIPv2 unauthenticated messages. The most secure configuration in this way is to set up RIPv2 authentication so that router should not be accepting RIPv1 and v2 unauthenticated messages and so making an unauthenticated router unable to inject a route. This mechanism is described in [RFC 2082 - RIP-2 MD5 Authentication](https://tools.ietf.org/html/rfc2082), but, it describes the usage of MD5, which is acknowledged to be a weak hashing function. The better one, which means the use of SHA-1 is described in [RFC 4822 - RIPv2 Cryptographic Authentication](https://tools.ietf.org/html/rfc4822).  
+**Техника защиты**.  
+Если маршрутизатор не настроен на аутентификацию сообщений RIPv2, он будет принимать неаутентифицированные сообщения RIPv1 и RIPv2. Наиболее безопасной конфигурацией в этом случае является настройка аутентификации RIPv2 таким образом, чтобы маршрутизатор не принимал неаутентифицированные сообщения RIPv1 и v2 и тем самым лишал неаутентифицированный маршрутизатор возможности проложить маршрут. Этот механизм описан в [RFC 2082 - RIP-2 MD5 Authentication](https://tools.ietf.org/html/rfc2082), но там описано использование MD5, которая признана слабой функцией хеширования. Более совершенный вариант, подразумевающий использование SHA-1, описан в [RFC 4822 - RIPv2 Cryptographic Authentication](https://tools.ietf.org/html/rfc4822).  
 
-Unfortunately, RIPv2 supports only Plain-text and MD5 Authentication. The first one is useless in case of sniffing the network, MD5 Auth is better in case of a passive attacker, intercepting packets, as it doesn't transfer password in plain text.  
-[The Configuration of RIPv2 Authentication guide](https://www.cisco.com/c/en/us/support/docs/ip/routing-information-protocol-rip/13719-50.html#md5) describes how to set this feature on *Cisco* devices.  
-The guide for setting MD5 authentication for *Mikrotik* is present [here](https://mikrotik.com/documentation/manual_2.6/Routing/RIP.html).
-The guide for setting MD5 authentification on *Juniper* devices is present [here](https://www.juniper.net/documentation/en_US/junos/topics/topic-map/rip-authentication.html).
+К сожалению, RIPv2 поддерживает только Plain-text и MD5 Authentication. Первая бесполезна в случае сниффинга сети, MD5-аутентификация лучше в случае пассивного злоумышленника, перехватывающего пакеты, так как не передает пароль открытым текстом.  
+В руководстве [The Configuration of RIPv2 Authentication guide](https://www.cisco.com/c/en/us/support/docs/ip/routing-information-protocol-rip/13719-50.html#md5) описано, как установить эту функцию на устройствах *Cisco*.  
+Руководство по настройке MD5-аутентификации для *Mikrotik* присутствует [здесь](https://mikrotik.com/documentation/manual_2.6/Routing/RIP.html).
+Руководство по настройке MD5-аутентификации на устройствах *Juniper* находится [здесь](https://www.juniper.net/documentation/en_US/junos/topics/topic-map/rip-authentication.html).
 
-Also, `passive-interface` feature should be used on the access interfaces, which communicate to end devices.  
-[Mikrotik's documentation](https://wiki.mikrotik.com/wiki/Manual:Routing/RIP#Interface) on setting `passive interface` feature.  
-[Cisco's documentation](https://networklessons.com/cisco/ccna-routing-switching-icnd1-100-105/rip-passive-interface) on setting `passive interface` feature.  
-[Juniper's documentation](https://www.juniper.net/documentation/en_US/junose15.1/topics/reference/command-summary/passive-interface.html) on setting `passive-interface` feature.  
+Также на интерфейсах доступа, которые связываются с конечными устройствами, должна использоваться функция `passive-interface`.  
+[Документация Mikrotik](https://wiki.mikrotik.com/wiki/Manual:Routing/RIP#Interface) по настройке функции `passive interface`.  
+[Документация Cisco](https://networklessons.com/cisco/ccna-routing-switching-icnd1-100-105/rip-passive-interface) по настройке функции `пассивный интерфейс`.  
+[Документация Juniper](https://www.juniper.net/documentation/en_US/junose15.1/topics/reference/command-summary/passive-interface.html) о настройке функции `passive-interface`.  
 
-**Related RFCs:**  
+**Связанные RFC:**.  
 [RFC 1388 - RIP Version 2 Carrying Additional Information](https://tools.ietf.org/html/rfc1388)  
 [RFC 4822 - RIPv2 Cryptographic Authentication](https://tools.ietf.org/html/rfc4822)  
 [RFC 2453 - RIP Version 2](https://tools.ietf.org/html/rfc2453)  
 [RFC 2080 - RIPng for IPv6](https://tools.ietf.org/html/rfc2080).  
 
-### OSPF Routing Table Poisoning
-**Сomplexity:** High  
-**Relevance:** High  
-**Conditions:**  
-**Description:**  
-**Attack tools**  
-**Defence technics**  
+### Отравление таблиц маршрутизации OSPF
+**Сложность:** Высокая  
+**Актуальность:** Высокая  
+**Условия:**  
+**Описание:**  
+**Средства атаки**  
+**Техника защиты**  
 
-### EIGRP Routing Table Poisoning
-**Complexity:** Medium  
-**Relevance:** Medium  
-**Conditions:** EIGRP protocol implemented on the network; no EIGRP messages authentication set up  
-**Description:**  
-EIGRP stands for Enhanced Interior Gateway Routing Protocol. It is a proprietary Cisco’s distance vector routing protocol, relying on Diffused Update Algorithm - DUAL. The main purpose of this protocol is to dynamically update the routing table and propagate the routes to other routers.  
-The main security issue is possible in case of spoofing data in *Update* message, e.g. to inject a non-legitimate route. In this case the router's routing table gets changed to make it pass the traffic through the device, controlled by the attacker and so the MitM attack is present.  
+### Отравление таблиц маршрутизации EIGRP
+**Сложность:** Средняя  
+**Актуальность:** средняя  
+**Условия:** В сети реализован протокол EIGRP; аутентификация сообщений EIGRP не установлена  
+**Описание:**  
+EIGRP расшифровывается как Enhanced Interior Gateway Routing Protocol. Это собственный протокол маршрутизации Cisco с вектором расстояния, основанный на алгоритме Diffused Update Algorithm - DUAL. Основное назначение этого протокола - динамическое обновление таблицы маршрутизации и распространение маршрутов на другие маршрутизаторы.  
+Основная проблема безопасности возможна в случае подмены данных в сообщении *Update*, например, для вставки нелегитимного маршрута. В этом случае в таблицу маршрутизации маршрутизатора вносятся изменения, заставляющие его пропускать трафик через устройство, контролируемое злоумышленником, и таким образом налицо MitM-атака.  
 
-**Attack tools**  
+**Инструменты атаки**  
 * [Eigrp Tools](http://www.hackingciscoexposed.com/?link=tools)  
-A perl script which allows to craft EIGRP packets and send them on network. It even allows set the K1-K4 metrics, all the flags and fields of EIGRP packet. The script requires `libnet-rawip-perl` and `libnetpacket-perl` packets to be installed. Some examples of usage:  
+Скрипт на языке perl, позволяющий создавать пакеты EIGRP и рассылать их по сети. Он даже позволяет установить метрики K1-K4, все флаги и поля EIGRP-пакета. Для работы скрипта требуется установка пакетов `libnet-rawip-perl` и `libnetpacket-perl`. Некоторые примеры использования:  
 
-	`./eigrp.pl --sniff --iface eth0`  
-	  perform a sniff on eth0 interface  
-	`./eigrp.pl --file2ip update.dat --source 192.168.7.8`  
-	  replay the traffic from file  
-	`./eigrp.pl --update --external --as 65534 --source 192.168.7.8`  
-	  send and Update message  
+	`./eigrp.pl --sniff --iface eth0`.  
+	  выполнить снифф на интерфейсе eth0  
+	`./eigrp.pl --file2ip update.dat --source 192.168.7.8`.  
+	  воспроизвести трафик из файла  
+	`./eigrp.pl --update --external --as 65534 --source 192.168.7.8`.  
+	  отправить и обновить сообщение  
 
 * [EIGRP Security Tool](https://sourceforge.net/projects/eigrpsectool/)  
-A python script, which allows to craft and send different EIGRP packets. The problem is that attempts to launch the script were unsuccessful due to lack of scapy_eigrp module which wasn't found. Also authors didn't write any documentation for the tool even in the 
-[research description](https://docs.google.com/document/d/1ZVNwi5KRkbY_PxMoODTvwSh3qpzdqiRM9Q4qppP2DvE/edit).
+Скрипт на языке python, позволяющий создавать и отправлять различные пакеты EIGRP. Проблема заключается в том, что попытки запустить скрипт не увенчались успехом из-за отсутствия модуля scapy_eigrp, который не был найден. Также авторы не написали никакой документации к инструменту даже в 
+[описание исследования](https://docs.google.com/document/d/1ZVNwi5KRkbY_PxMoODTvwSh3qpzdqiRM9Q4qppP2DvE/edit).
 
-* [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports EIGRP traffic manipulating.
+* [t50](https://gitlab.com/fredericopissarra/t50) - многопротокольный инструмент для инжекции трафика и тестирования на проникновение в сеть. Среди многих других протоколов поддерживает манипулирование трафиком EIGRP.
 
-**Defence techniques**  
-To protect a network from untrusted route propagations, EIGRP provides a mechanism for authenticating router updates. It uses MD5-keyed digest to sign each packet to prevent unauthorized devices from sending updates to the network. It protects legitimate routers from non-legitimate router updates and from router spoofing. The key is just a defined string, which must be set on other devices which are meant to be legitimate. The detailed guide on EIGRP MD5 Authentication setup can be found [here](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/82110-eigrp-authentication.html#maintask1).  
+**Технологии защиты**.  
+Для защиты сети от распространения недоверенных маршрутов в EIGRP предусмотрен механизм аутентификации обновлений маршрутизаторов. Он использует дайджест с ключом MD5 для подписи каждого пакета, чтобы предотвратить отправку обновлений в сеть неавторизованными устройствами. Это защищает легитимные маршрутизаторы от нелегитимных обновлений и от подмены маршрутизаторов. Ключ представляет собой определенную строку, которая должна быть установлена на других устройствах, считающихся легитимными. Подробное руководство по настройке MD5-аутентификации EIGRP можно найти [здесь] (https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/82110-eigrp-authentication.html#maintask1).  
 
-Unfortunately, MD5 is acknowledged to be a weak hashing algorithm due to hash collisions. Cisco devices also support `hmac-sha-256` EIGRP Updates Authentification. The hash collision attack on SHA-256 is much more complex than for MD5. The guide to EIGRP HMAC-SHA-256 Authentication can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-sha-256.pdf).  
+К сожалению, MD5 признан слабым алгоритмом хеширования из-за коллизий хешей. Устройства Cisco также поддерживают аутентификацию обновлений EIGRP по алгоритму `hmac-sha-256`. Атака на хэш-коллизию для SHA-256 гораздо сложнее, чем для MD5. Руководство по аутентификации EIGRP HMAC-SHA-256 можно найти [здесь] (https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-sha-256.pdf).  
 
-The stub EIGRP routing area can be set up as it let's determine the types of routes the stub router should receive queries or not. More information on EIGRP Stub Routing can be found [here](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-eigrp-stub-rtg.html).  
+Область маршрутизации stub EIGRP может быть настроена таким образом, чтобы определить, какие типы маршрутов должен получать запросы маршрутизатор stub, а какие нет. Более подробную информацию о маршрутизации заглушек EIGRP можно найти [здесь](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_eigrp/configuration/15-mt/ire-15-mt-book/ire-eigrp-stub-rtg.html).  
 
-Another best practice to reduce unwanted traffic in a network is to set up passive interfaces. `passive-interface` feature should be set on access interfaces, which communicate not to network devices, but to end devices. The instruction on setting `passive-interface` on EIGRP and explaination on how it works is presented in [Cisco's documentation page](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/13675-16.html).  
+Другой оптимальной практикой для снижения нежелательного трафика в сети является настройка пассивных интерфейсов. Функция `passive-interface` должна быть установлена на интерфейсах доступа, которые общаются не с сетевыми устройствами, а с конечными устройствами. Инструкция по установке `пассивного интерфейса` на EIGRP и объяснение принципов его работы приведены на [странице документации Cisco](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/13675-16.html).  
 
 ### ICMP Redirect
-**Сomplexity:** Medium  
-**Relevance:** Medium  
-**Description:**  
-One of the purposes of the ICMP Protocol is to dynamically change the routing table of the end network systems.
-Dynamic remote management routing was originally conceived to prevent possible send a message to a non-optimal route, as well as to increase fault tolerance of the Network as a whole. It was assumed that the network segment can be connected to the Internet  through several routers (not through one as it usually happens). In this case, we can address the external network through any of the nearest routers. For example, to *some_host.site* the shortest route passes through the "router A" and to the *another.site* - through the "router B". 
+**Сложность:** Средняя  
+**Релевантность:** Средняя  
+**Описание:**  
+Одним из назначений протокола ICMP является динамическое изменение таблицы маршрутизации конечных сетевых систем.
+Динамическая маршрутизация удаленного управления изначально была задумана для предотвращения возможной отправки сообщения по неоптимальному маршруту, а также для повышения отказоустойчивости Сети в целом. Предполагалось, что сегмент сети может быть подключен к Интернету через несколько маршрутизаторов (а не через один, как это обычно бывает). В этом случае мы можем обращаться к внешней сети через любой из ближайших маршрутизаторов. Например, к *some_host.site* кратчайший маршрут проходит через "маршрутизатор A", а к *another.site* - через "маршрутизатор B". 
 
-If one of the routers fails, communication with the outside world is possible through another router. 
-As the "ICMP Redirest attack", we change the route to some site (DNS Name) in the routing table of node A (victim) so that the traffic from node A to some site goes through hacker PC
+Если один из маршрутизаторов выходит из строя, связь с внешним миром возможна через другой маршрутизатор. 
+В качестве "ICMP Redirest атаки" мы изменяем маршрут к некоторому сайту (DNS-имя) в таблице маршрутизации узла A (жертвы) таким образом, чтобы трафик от узла A к некоторому сайту проходил через хакерский ПК
 
-**Conditions of success:**  
-- The IP address of the new router must be on the same subnet as the attacked host itself.
-- A new route cannot be added for an IP address that is on the same subnet as the host itself.
-- OS must support and process ICMP redirect packets. By default ICMP redirect enabled in Windows (HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\EnableICMPRedirect)  
-and in some Linux distros (cat /proc/sys/net/ipv4/conf/all/accept_redirects)
+**Условия успеха:**.  
+- IP-адрес нового маршрутизатора должен находиться в той же подсети, что и сам атакуемый узел.
+- Новый маршрут не может быть добавлен для IP-адреса, находящегося в той же подсети, что и сам узел.
+- ОС должна поддерживать и обрабатывать пакеты ICMP redirect. По умолчанию ICMP-переадресация включена в Windows (HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\EnableICMPRedirect)  
+и в некоторых дистрибутивах Linux (cat /proc/sys/net/ipv4/conf/all/accept_redirects)
 
-**Attack tools**
+**Атакующие инструменты**
 
-- [Responder](https://github.com/SpiderLabs/Responder) ([example](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py))
-- Hping3 ([example](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140))
+- [Responder](https://github.com/SpiderLabs/Responder) ([пример](https://github.com/SpiderLabs/Responder/blob/master/tools/Icmp-Redirect.py))
+- Hping3 ([пример](https://gist.github.com/githubfoam/91bd46b68c7ee1fe465e9f743a24d140))
 - [Mitmf](https://github.com/byt3bl33d3r/MITMf)
-- Bettercap ([documentation](https://www.bettercap.org/legacy/))
+- Bettercap ([документация](https://www.bettercap.org/legacy/))
 
-**Defence technics**
+**Техника защиты**
 
-- Disable icmp redirect ([example](https://sbmlabs.com/notes/icmp_redirect_attack/))
+- Отключить icmp-перенаправление ([пример](https://sbmlabs.com/notes/icmp_redirect_attack/))
 
 ## L4+
 
-### NetBIOS (LLMNR) spoofing
-**Сomplexity:** Low  
-**Relevance:** High  
-**Description:**  
-If a windows client cannot resolve a hostname using DNS, it will use the Link-Local Multicast Name Resolution ([LLMNR](https://docs.microsoft.com/en-us/previous-versions//bb878128(v=technet.10))) protocol to ask neighbouring computers. LLMNR can be used to resolve both IPv4 and IPv6 addresses. 
+### Подмена NetBIOS (LLMNR)
+**Сложность:** Низкая  
+**Актуальность:** Высокая  
+**Описание:**  
+Если клиент windows не может определить имя хоста с помощью DNS, он использует протокол Link-Local Multicast Name Resolution ([LLMNR](https://docs.microsoft.com/en-us/previous-versions//bb878128(v=technet.10))) для опроса соседних компьютеров. LLMNR может использоваться для разрешения адресов IPv4 и IPv6. 
 
-If this fails, NetBios Name Service ([NBNS](https://wiki.wireshark.org/NetBIOS/NBNS)) will be used. NBNS is a similar protocol to LLMNR that serves the same purpose. The main difference between the two is NBNS works over IPv4 only. 
+Если это не удается, то используется служба имен NetBios ([NBNS](https://wiki.wireshark.org/NetBIOS/NBNS)). NBNS - это похожий на LLMNR протокол, который служит для тех же целей. Основное различие между ними заключается в том, что NBNS работает только по протоколу IPv4. 
 
-The problem of this pretty cool thing is that when LLMNR or NBNS are used to resolve a request, any host on the network who knows the IP of the host being asked about can reply. Even if a host replies to one of these requests with incorrect information, it will still be regarded as legitimate.
+Проблема этой довольно интересной вещи заключается в том, что когда LLMNR или NBNS используются для разрешения запроса, ответить может любой хост в сети, который знает IP хоста, о котором спрашивают. Даже если хост ответит на один из таких запросов с неверной информацией, он все равно будет считаться легитимным.
 
-The attacker may request NTLM authentication from the victim, which will cause the victim's device to send an NTLM hash, which can then be used for brute force attack.
+Злоумышленник может запросить у жертвы NTLM-аутентификацию, в результате чего устройство жертвы отправит NTLM-хэш, который затем может быть использован для атаки методом грубой силы.
 
 <details>
- <summary>Also there is a chance to perform WPAD spoofing.</summary>
+ <summary>Также существует возможность осуществления WPAD-спуфинга.</summary>
 
-WPAD spoofing can be referred to as a special case of LLMNR- and NBNS-spoofing. Web Proxy Auto Discovery protocol is used for automatic configuration of HTTP proxy server. 
+Подделку WPAD можно назвать частным случаем LLMNR- и NBNS-подделки. Протокол Web Proxy Auto Discovery используется для автоматического конфигурирования HTTP-прокси-сервера. 
 
-The device sends an LLMNR/NBNS request with a wpad host, obtains the corresponding IP address and tries to access the wpad.dat file containing information about proxy settings via HTTP.
+Устройство посылает LLMNR/NBNS-запрос с указанием узла wpad, получает соответствующий IP-адрес и пытается получить доступ к файлу wpad.dat, содержащему информацию о настройках прокси-сервера по протоколу HTTP.
 
-As a result, an attacker can perform LLMNR/NBNS spoofing and provide the victim with his own wpad.dat file, resulting in all HTTP and HTTPS traffic going through the attacker.</details>
+В результате злоумышленник может выполнить подмену LLMNR/NBNS и предоставить жертве собственный файл wpad.dat, в результате чего весь HTTP- и HTTPS-трафик будет проходить через злоумышленника.</details
 
-[Quick tutorial to grab clear text credentials](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)  
-[How Microsoft Windows’s name resolution services work and how they can be abused](https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
+[Краткое руководство по перехвату учетных данных в открытом виде](https://www.trustedsec.com/2013/07/wpad-man-in-the-middle-clear-text-passwords/)  
+[Как работают службы разрешения имен в Microsoft Windows и как ими можно злоупотреблять](https://trelis24.github.io/2018/08/03/Windows-WPAD-Poisoning-Responder/)
 
-**Attack tools**
+**Инструменты атаки**
 
 * [Responder](https://github.com/SpiderLabs/Responder)  
-It can answer LLMNR and NBNS queries giving its own IP address as the destination for any hostname requested. Responder has support for poisoning WPAD requests and serving a valid wpad.dat PAC file.
+Он может отвечать на запросы LLMNR и NBNS, выдавая свой собственный IP-адрес в качестве адресата для любого запрашиваемого имени хоста. Responder поддерживает отравление WPAD-запросов и передачу корректного PAC-файла wpad.dat.
 
 + [Mitm6](https://github.com/fox-it/mitm6)  
-mitm6 is a pentesting tool which is designed for WPAD spoofing and credential relaying. 
+mitm6 - инструмент для пентестирования, предназначенный для подмены WPAD-запросов и пересылки учетных данных. 
 
 + [Inveigh](https://github.com/Kevin-Robertson/Inveigh)  
-Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle tool designed to assist penetration testers/red teamers that find themselves limited to a Windows system.
-	```powershell
-	Import-Module .\Inveigh.psd1
+Inveigh - PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer и man-in-the-middle tool, предназначенный для помощи тестерам проникновения/красным командам, которые оказались ограничены системой Windows.
+	``powershell
+	Импорт-модуль .\Inveigh.psd1
 	Invoke-Inveigh -NBNS Y -mDNS Y -FileOutput Y -ConsoleOutput Y -SMB Y 
 	``` 
 
@@ -489,192 +489,192 @@ Inveigh is a PowerShell ADIDNS/LLMNR/NBNS/mDNS/DNS spoofer and man-in-the-middle
 [auxiliary/spoof/llmnr/llmnr_response](https://www.rapid7.com/db/modules/auxiliary/spoof/llmnr/llmnr_response),  
 [auxiliary/spoof/nbns/nbns_response](https://www.rapid7.com/db/modules/auxiliary/spoof/nbns/nbns_response) 
 
-**Defence technics**
+**Техника защиты**
 
-+ Disable LLMNR and NBNS. You can do it using [GPO](https://en.wikipedia.org/wiki/Group_Policy)  
-([how to do it here](http://woshub.com/how-to-disable-netbios-over-tcpip-and-llmnr-using-gpo/))  
-+ Create DNS entry with “WPAD” that points to the corporate proxy server. So the attacker won’t be able to manipulate the traffic.  
-+ Disable “Autodetect Proxy Settings”
++ Отключите LLMNR и NBNS. Это можно сделать с помощью [GPO](https://en.wikipedia.org/wiki/Group_Policy)  
+([как это сделать здесь](http://woshub.com/how-to-disable-netbios-over-tcpip-and-llmnr-using-gpo/))  
++ Создать DNS-запись с именем "WPAD", указывающую на корпоративный прокси-сервер. Таким образом, злоумышленник не сможет манипулировать трафиком.  
++ Отключить "Автоопределение параметров прокси".
 
 
 ### DHCP spoofing 
-**Сomplexity:** Moderate  
-**Relevance:** Moderate  
-**Description:**    
-The purpose of this attack is to *use the attacker's host or device as the default gateway* and to force clients to use a false Domain Name Service (DNS) and a Windows Internet name service (WINS server) configured by the attacker. The attacker's task is to configure a fake DHCP server on the network to provide DHCP addresses to clients and exhausted the pool of IP addresses from other legitimate DHCP servers (DHCP Starvation attack).
+**Сложность:** Умеренная  
+**Актуальность:** Умеренная  
+**Описание:**    
+Цель данной атаки - *использовать хост или устройство злоумышленника в качестве шлюза по умолчанию* и заставить клиентов использовать ложную службу доменных имен (DNS) и службу имен Windows Internet (WINS-сервер), настроенные злоумышленником. Задача злоумышленника - настроить в сети поддельный DHCP-сервер для предоставления DHCP-адресов клиентам и исчерпать пул IP-адресов других легитимных DHCP-серверов (атака DHCP Starvation).
 
-**Conditions of success:**
+**Условия успеха:**.
 
- - The client receives an IP address from a Rogue DHCP server faster
-   than from a legitimate DHCP server. 
- - The legitimate server has exhausted the pool of addresses to be issued (DHCP Starvation attack).
+ - Клиент получает IP-адрес от нелегального DHCP-сервера быстрее.
+   чем от легитимного DHCP-сервера. 
+ - Легитимный сервер исчерпал пул выдаваемых адресов (атака DHCP Starvation).
 
- **DHCP Starvation attack**: 
+ Атака **DHCP Starvation**: 
 
- - The attacker requests an IP address from the DHCP server and receives it
-  - The MAC address of the attacker changes and it requests the next, different IP address, masked as a new client
- - These actions are repeated until the entire pool of IP addresses on the server is   exhausted.
+ - Злоумышленник запрашивает IP-адрес у DHCP-сервера и получает его.
+  - MAC-адрес злоумышленника меняется, и он запрашивает следующий, другой IP-адрес, маскируясь под нового клиента.
+ - Эти действия повторяются до тех пор, пока весь пул IP-адресов на сервере не будет исчерпан.
 
-**Attack tools for DHCP starvation**
+**Атакующие средства для DHCP starvation**
 - [DHCPig](https://github.com/kamorin/DHCPig)
-- nmap to find DHCP server (`nmap -n --script=broadcast-dhcp-discover`)
-- metasploit modules ([example](https://digi.ninja/metasploit/dns_dhcp.php))
-- use scapy for DHCP starvation attack ([example](https://github.com/shreyasdamle/DHCP-Starvation-))
+- nmap для поиска DHCP-сервера (`nmap -n --script=broadcast-dhcp-discover`)
+- модули metasploit ([example](https://digi.ninja/metasploit/dns_dhcp.php))
+- использование scapy для атаки на DHCP starvation ([пример](https://github.com/shreyasdamle/DHCP-Starvation-))
 
-**Attack tools for DHCP spoofing**
+**Атакующие инструменты для подмены DHCP**
  - [yersinia](https://kalilinuxtutorials.com/yersinia/)
  - [mitmf](https://github.com/byt3bl33d3r/MITMf)
  - [Ettercap](https://www.ettercap-project.org/)
  
  
 
-**Defence technics**
+**Техника защиты**
 
-- *Enable DHCP snooping*
+- *Включить DHCP snooping*.
 
-This is a L2 switch function designed to protect against DHCP attacks. For example, a DHCP spoofing attack or DHCP starvation attack.
+Это функция коммутатора L2, предназначенная для защиты от DHCP-атак. Например, от атаки DHCP spoofing или атаки DHCP starvation.
 
-On Cisco Switches:
-- *Switch(config)#ip dhcp snooping vlan 10* - enable DHCP snooping for vlan10 
-- *Switch(config)# interface fa 0/1* - go to the settings of the specific interface
-- *Switch(config-if)#ip dhcp snooping trust* - setting up trusted ports on the interface (by default all ports are unreliable, the DHCP server should not be connected to them).
-- *Switch(config)#ip dhcp-server 10.84.168.253* - Specify the address of the trusted DHCP server, which is accessible through the trusted port.
+На коммутаторах Cisco:
+- *Switch(config)#ip dhcp snooping vlan 10* - включение DHCP snooping для vlan10. 
+- *Switch(config)# interface fa 0/1* - переход к настройкам конкретного интерфейса
+- *Switch(config-if)#ip dhcp snooping trust* - настройка доверенных портов на интерфейсе (по умолчанию все порты являются ненадежными, DHCP-сервер не должен к ним подключаться).
+- *Switch(config)#ip dhcp-server 10.84.168.253* - указание адреса доверенного DHCP-сервера, доступ к которому осуществляется через доверенный порт.
 
-**Important.** By default, after enabling DHCP snooping, the switch is enabled to check for MAC address matching. The switch checks whether the MAC address in the DHCP request matches the client's MAC address. If they do not match, the switch discards the packet.
+**Важно.** По умолчанию после включения DHCP snooping на коммутаторе включается проверка соответствия MAC-адресов. Коммутатор проверяет, совпадает ли MAC-адрес в DHCP-запросе с MAC-адресом клиента. Если они не совпадают, коммутатор отбрасывает пакет.
 
-> [How DHCP works](https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol)  
+> [Как работает DHCP](https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol)  
 > [DHCP wireshark sample](https://wiki.wireshark.org/SampleCaptures?action=AttachFile&do=view&target=dhcp.pcap)
 
 ### Rogue DHCP (DHCPv6)
-**Сomplexity:** Low  
-**Relevance:** High  
-**Description:**  
-The Ipv6 client sends a *Solicit* message to the All_DHCP_Relay_Agents_and_Servers address to find available DHCP servers. Any server that can meet the client's requirements responds with an *Advertise* message. The client then chooses one of the servers and sends a *Request* message to the server asking for confirmed assignment of addresses and other configuration information.The server responds with a *Reply* message that contains the confirmed addresses and configuration.  
+**Сложность:** Низкая  
+**Актуальность:** Высокая  
+**Описание:**  
+Ipv6-клиент посылает сообщение *Solicit* на адрес All_DHCP_Relay_Agents_and_Servers для поиска доступных DHCP-серверов. Любой сервер, удовлетворяющий требованиям клиента, отвечает сообщением *Advertise*. Затем клиент выбирает один из серверов и посылает на него сообщение *Request* с запросом на подтверждение назначения адресов и другой конфигурационной информации. В ответ сервер посылает сообщение *Reply*, содержащее подтвержденные адреса и конфигурацию.  
 
-This schema looks simular to DHCPv4 so the main goal for the attacker is to use fake DHCPv6 server to redirect victims traffic to himself.  
+Эта схема похожа на DHCPv4, поэтому основная задача злоумышленника - использовать поддельный DHCPv6-сервер для перенаправления трафика жертвы на себя.  
 
-The attacker can catch client DHCP solicit message and can actually reply, pretending that he is the DHCPv6 server and assign credentials (such as the DNS address) to be used by victim. 
+Злоумышленник может перехватить сообщение клиента DHCP solicit и ответить на него, выдавая себя за DHCPv6-сервер, и назначить учетные данные (например, DNS-адрес), которые будут использоваться жертвой. 
 
-**Attack tools**
+**Инструменты атаки**
 
 - [mitm6](https://github.com/fox-it/mitm6)
-- some scapy python scripts ([example](https://cciethebeginning.wordpress.com/2012/01/27/dhcpv6-fake-attack/))
+- некоторые скрипты scapy python ([example](https://cciethebeginning.wordpress.com/2012/01/27/dhcpv6-fake-attack/))
 - [snarf](https://github.com/purpleteam/snarf)
 
-**Defence technics**
+**Техника защиты**
 
-- In cisco devices enable dhcpv6 guard policy ([example](https://community.cisco.com/t5/networking-documents/understanding-dhcpv6-guard/ta-p/3147653))
-- disable Ipv6 if you don't use it
+- В устройствах cisco включите политику защиты dhcpv6 ([пример](https://community.cisco.com/t5/networking-documents/understanding-dhcpv6-guard/ta-p/3147653)).
+- отключите Ipv6, если вы его не используете
 
-## Wireless
-### Karma attacks (Wi-Fi)
+## Беспроводные сети
+### Атаки на карму (Wi-Fi)
 
-**Сomplexity:** Low  
-**Relevance:** High  
-**Description:**  
-The KARMA attack uses the peculiarities of the clients who send requests to determine which wireless networks are nearby. 
+**Сложность:** Низкая  
+**Актуальность:** Высокая  
+**Описание:**  
+Атака KARMA использует особенности клиентов, посылающих запросы, для определения того, какие беспроводные сети находятся поблизости. 
 
-The Wi-Fi Access Point periodically sends a beacon request indicating the network SSID that identifies the Wi-Fi network. When a client receives a beacon frame with an SSID that it remembers, it can be associated with the wireless network.
-Vulnerable client devices broadcast a "preferred network list" (PNL), which contains the SSIDs of access points to which they have previously connected and are willing to automatically reconnect without user intervention. These broadcasts may be received by any WiFi access point in range. The KARMA attack consists in an access point receiving this list and then giving itself an SSID from the PNL, thus becoming an evil twin of an access point already trusted by the client.
+Точка доступа Wi-Fi периодически посылает запрос-маяк с указанием SSID, идентифицирующего сеть Wi-Fi. Когда клиент получает кадр маяка с SSID, который он запомнил, он может быть ассоциирован с беспроводной сетью.
+Уязвимые клиентские устройства передают в эфир "список предпочитаемых сетей" (PNL), содержащий SSID точек доступа, к которым они ранее подключались и готовы автоматически переподключиться без вмешательства пользователя. Эти сообщения могут быть приняты любой точкой доступа WiFi в радиусе действия. Атака KARMA заключается в том, что точка доступа получает этот список и присваивает себе SSID из PNL, становясь, таким образом, злым двойником точки доступа, которой клиент уже доверяет.
 
-As a result, the client connects to a different network than the one the user expects. And now the attacker can perform MITM or other attacks on the client system.
+В результате клиент подключается к сети, отличной от той, на которую рассчитывает пользователь. И теперь злоумышленник может проводить MITM- или другие атаки на клиентскую систему.
 
-*However, nowadays*, most modern network managers have taken countermeasures against the KARMA attack by switching to passive scanning; instead of arbitrarily sending probe request frames, network managers now wait to receive a beacon frame with a familiar ESSID before associating with a wireless network. While this countermeasure has hampered the effectiveness of the KARMA attack, the second feature exploited by KARMA, the Auto-Connect flag that enables the stations to automatically join previously connected networks, was left intact in almost every modern Operating System.
+*Однако в настоящее время* большинство современных сетевых менеджеров приняли меры против атаки KARMA, перейдя на пассивное сканирование; вместо произвольной рассылки запросов-зондов сетевые менеджеры теперь ожидают получения маячка с известным ESSID, прежде чем подключиться к беспроводной сети. В то время как эта контрмера снизила эффективность атаки KARMA, вторая функция, используемая KARMA, - флаг Auto-Connect, позволяющий станциям автоматически присоединяться к ранее подключенным сетям, - осталась нетронутой практически во всех современных операционных системах.
 
-An attacker that can guess the SSID  in the victim device's Preferred Network List, will be able to broadcast the corresponding beacon frame and have that device automatically associate with an attacker-controlled access point. In a more sophisticated version of the attack, the adversary may use a "dictionary" of common SSIDs, that the victim has likely connected to in the past.
+Злоумышленник, угадавший SSID в списке предпочитаемых сетей устройства-жертвы, сможет передать соответствующий кадр маяка и заставить это устройство автоматически подключиться к контролируемой злоумышленником точке доступа. В более сложном варианте атаки злоумышленник может использовать "словарь" распространенных SSID, к которым жертва, вероятно, подключалась в прошлом.
 
-[How does a KARMA attack work?](https://www.justaskgemalto.com/en/karma-attack-work-former-ethical-hacker-jason-hart-explains/)
+[Как работает атака KARMA?](https://www.justaskgemalto.com/en/karma-attack-work-former-ethical-hacker-jason-hart-explains/)
 
-**Attack tools**
+**Инструменты атаки**
 
-+ *[Wifiphisher](https://github.com/wifiphisher/wifiphisher)*  
-The Rogue Access Point Framework 
++ *[Wifiphisher](https://github.com/wifiphisher/wifiphisher)*.  
+Rogue Access Point Framework 
 
 + *[hostapd-mana](https://github.com/sensepost/hostapd-mana/)*  
-Hostapd-mana is a featureful rogue wifi access point tool. It can be used for a myriad of purposes from tracking and deanonymising devices (aka Snoopy), gathering corporate credentials from devices attempting EAP (aka WPE) or attracting as many devices as possible to connect to perform MitM attacks.
+Hostapd-mana - это многофункциональный инструмент для создания неавторизованных точек доступа к wifi. Он может использоваться для множества целей, от отслеживания и деанонимизации устройств (ака Snoopy), сбора корпоративных учетных данных с устройств, пытающихся подключиться к EAP (ака WPE), до привлечения как можно большего числа устройств для проведения MitM-атак.
 
-+ *[WIFI PINEAPPLE](https://shop.hak5.org/products/wifi-pineapple)*  
-The rogue access point and WiFi pentest toolkit.  
-How to reinforce the MK5 Karma attack with the Dogma PineAP module [here](https://www.hak5.org/episodes/hak5-gear/the-next-gen-rogue-access-point-pineap).
++ *[WIFI PINEAPPLE](https://shop.hak5.org/products/wifi-pineapple)*.  
+Инструментарий несанкционированной точки доступа и WiFi pentest.  
+Как усилить атаку MK5 Karma с помощью модуля Dogma PineAP [здесь](https://www.hak5.org/episodes/hak5-gear/the-next-gen-rogue-access-point-pineap)].
 
-+ *[FruityWIFI](http://fruitywifi.com/index_eng.html)*  
-FruityWiFi is an open source tool to audit wireless networks. It allows the user to deploy advanced attacks by directly using the web interface or by sending messages to it.  
-Initialy the application was created to be used with the Raspberry-Pi, but it can be installed on any Debian based system.
++ *[FruityWIFI](http://fruitywifi.com/index_eng.html)*.  
+FruityWiFi - это инструмент с открытым исходным кодом для аудита беспроводных сетей. Он позволяет проводить расширенные атаки как непосредственно через веб-интерфейс, так и путем отправки на него сообщений.  
+Изначально приложение было создано для использования с Raspberry-Pi, но оно может быть установлено на любую систему на базе Debian.
 
-**Defence technics**
+**Техника защиты**
 
-+ Pay attention to the Wi-Fi networks that your device connects to  
-+ Don't use open wifi in public areas, or use it very sparingly  
-+ Creating encrypted connections (VPN, etc.)  
++ Обращайте внимание на сети Wi-Fi, к которым подключается ваше устройство  
++ Не используйте открытый Wi-Fi в общественных местах или используйте его очень редко  
++ Создание зашифрованных соединений (VPN и т.д.)  
 
 
 ### Rogue BTS (GSM)
 
-# Attack technics
-## Data sniffing
+## Техника атаки
+## Снайпинг данных
 
-**Attack tools:**
+** Инструменты атаки:**
 
 * [wireshark](https://www.wireshark.org)
 * [`net-creds`](https://github.com/DanMcInerney/net-creds)
 
-## Injections in data
-### Malicious JS in HTML
+## Инъекции в данные
+### Вредоносный JS в HTML
 ### HTA
 
-## Data modification
+## Модификация данных
 ### Wsus
 ### DNS hijacking
 
-# Hacker notes
-## Difference between technology stack (or why most of that attack imposible from your notebook)
-Thanks to [@serjepatoff](https://github.com/serjepatoff) for explanation:  
-Network equipment has the same general-purpose CPUs. MIPS or ARM for basic SOHO routers, multicore x86 in more serious boxes. It's the NIC with multiple hardware queues and special methods of NIC<->software communication (explicit ring–buffering, heavy use of DMA) that make a difference.
+## Заметки хакера
+## Разница между стеками технологий (или почему большинство этих атак невозможно выполнить с ноутбука)
+Спасибо [@serjepatoff](https://github.com/serjepatoff) за объяснение:  
+В сетевом оборудовании используются одни и те же процессоры общего назначения. MIPS или ARM для базовых SOHO-маршрутизаторов, многоядерные x86 в более серьезных коробках. Разница заключается в сетевых картах с несколькими аппаратными очередями и специальными методами взаимодействия NIC<->программное обеспечение (явная кольцевая буферизация, активное использование DMA).
 
-So you can't just connect to the network and turn on the spoofing, it can put the network down right away. Your small notebook network adapter simply cannot cope with a large data stream and will start to drop them. You need to choose the optimal number of hosts that you can spoof at the same time(~<4).
+Поэтому нельзя просто подключиться к сети и включить спуфинг, он может сразу же вывести сеть из строя. Сетевой адаптер маленького ноутбука просто не справится с большим потоком данных и начнет их отбрасывать. Необходимо выбрать оптимальное количество хостов, которые можно подменить одновременно (~<4).
 
-### Attack device  
-Possible candidate: MikroTik hAP AC
+### Устройство атаки  
+Возможный кандидат: MikroTik hAP AC
 
-#  SSLStrip, SSLStrip+, HSTS
+# SSLStrip, SSLStrip+, HSTS
 
-***SSLStrip*** is a technique that replaces a secure (HTTPS) connection with an open (HTTP) connection.
-This attack is also known as HTTP-downgrading
+***SSLStrip*** - это техника, которая заменяет защищенное (HTTPS) соединение на открытое (HTTP).
+Эта атака также известна как HTTP-downgrading.
 
-It intercepted HTTP traffic and whenever it spotted redirects or links to sites using HTTPS, it would transparently strip them away.
+Она перехватывает HTTP-трафик и при обнаружении перенаправлений или ссылок на сайты, использующие HTTPS, прозрачно удаляет их.
 
-Instead of the victim connecting directly to a website; the victim connected to the attacker, and the attacker initiated the connection back to the website. The interceptor made the encrypted connection to back to the web server in HTTPS, and served the traffic back to the site visitor unencrypted 
+Вместо того чтобы жертва напрямую подключалась к сайту, она подключалась к злоумышленнику, а тот инициировал обратное подключение к сайту. Перехватчик устанавливал зашифрованное соединение с веб-сервером по протоколу HTTPS и передавал трафик обратно посетителю сайта в незашифрованном виде. 
 
-***But*** it doesn't work anymore with the advent of HSTS. More precisely, it doesn't work where HSTS is enabled.
+***Но*** с появлением HSTS это уже не работает. Точнее, он не работает там, где включена HSTS.
 
-HTTP Strict Transport Security ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) is a web security policy mechanism that helps to protect websites against protocol downgrade attacks (SSL stripping). It allows web servers to declare that web browsers should interact with it using only secure HTTPS connections, and never via the insecure HTTP protocol. HSTS is an IETF standards track protocol and is specified in RFC 6797.
+HTTP Strict Transport Security ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) - это механизм политики веб-безопасности, позволяющий защитить сайты от атак с понижением протокола (SSL stripping). Он позволяет веб-серверам объявить, что веб-браузеры должны взаимодействовать с ним только через защищенные соединения HTTPS и никогда - через небезопасный протокол HTTP. HSTS является протоколом IETF, отслеживающим стандарты, и описан в RFC 6797.
 
-The HSTS works by the server responding with a special header called Strict-Transport-Security which contains a response telling the client that whenever they reconnect to the site, they must use HTTPS. This response contains a "max-age" field which defines how long this rule should last for since it was last seen.
+HSTS работает следующим образом: сервер отвечает специальным заголовком Strict-Transport-Security, который содержит ответ, сообщающий клиенту, что при каждом повторном подключении к сайту он должен использовать HTTPS. Этот ответ содержит поле "max-age", которое определяет, как долго должно действовать это правило с момента его последнего просмотра.
 
-Also It has `includeSubDomains` (optional).
-If this optional parameter is specified, this rule applies to all of the site's subdomains as well.
+Также в нем есть `includeSubDomains` (необязательный параметр).
+Если этот необязательный параметр указан, то данное правило будет применяться и ко всем поддоменам сайта.
 
-But not everyone sets up HSTS the same way.
+Но не все настраивают HSTS одинаково.
 
-That's how ***SSLstrip++*** came about.
+Именно так и появился ***SSLstrip++***.
 
-It's a tool that transparently hijack HTTP traffic on a network, watch for HTTPS links and redirects, then map those links into either look-alike HTTP links or homograph-similar HTTPS links. 
+Это инструмент, который прозрачно перехватывает HTTP-трафик в сети, следит за HTTPS-ссылками и перенаправлениями, а затем преобразует эти ссылки либо в похожие на HTTP-ссылки, либо в похожие на них HTTPS-ссылки. 
 
-One of the shortcomings of HSTS is the fact that it requires a previous connection to know to always connect securely to a particular site. When the visitor first connects to the website, they won't have received the HSTS rule that tells them to always use HTTPS. Only on subsequent connections will the visitor's browser be aware of the HSTS rule that requires them to connect over HTTPS.
+Одним из недостатков HSTS является то, что для безопасного соединения с конкретным сайтом необходимо знать о предыдущем соединении. Когда посетитель впервые подключается к сайту, он не получает правила HSTS, которое предписывает ему всегда использовать HTTPS. Только при последующих подключениях браузер посетителя будет знать о правиле HSTS, которое предписывает ему подключаться по HTTPS.
 
-***HSTS Preload Lists*** are one potential solution to help with these issues, they effectively work by hardcoding a list of websites that need to be connected to using HTTPS-only. 
+Одним из потенциальных решений этой проблемы являются ***HSTS Preload Lists***, которые эффективно работают за счет жесткого кодирования списка сайтов, подключение к которым должно осуществляться только по HTTPS. 
 
-Inside the source code of Google Chrome, there is a file which contains a hardcoded file listing the HSTS properties for all domains in the Preload List. Each entry is formatted in JSON.
+В исходном коде Google Chrome есть файл, содержащий жестко закодированный файл со списком HSTS-свойств для всех доменов в списке предварительной загрузки. Каждая запись отформатирована в JSON.
 
 
-**Attack tools**
+**Инструменты атаки**
 
 + [sslstrip](https://github.com/moxie0/sslstrip)  
-sslstrip is a MITM tool that implements Moxie Marlinspike's SSL stripping attacks.
+sslstrip - это MITM-инструмент, реализующий атаки на зачистку SSL от Moxie Marlinspike.
 
 + [sslstrip2](https://github.com/LeonardoNve/sslstrip2)  
-This is a new version of [Moxie´s SSLstrip] (http://www.thoughtcrime.org/software/sslstrip/) with the new feature to avoid HTTP Strict Transport Security (HSTS) protection mechanism.
+Это новая версия [Moxie´s SSLstrip] (http://www.thoughtcrime.org/software/sslstrip/) с новой возможностью обхода механизма защиты HTTP Strict Transport Security (HSTS).
 
-**Defence technics**
+**Техника защиты**
 
-[For developers - The 6-Step "Happy Path" to HTTPS](https://www.troyhunt.com/the-6-step-happy-path-to-https/)
+[Для разработчиков - 6-ступенчатый "счастливый путь" к HTTPS](https://www.troyhunt.com/the-6-step-happy-path-to-https/)
