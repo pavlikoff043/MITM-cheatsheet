@@ -45,25 +45,25 @@
 **Сomplexity:** Low  
 **Relevance:** High  
 **Description:**  
-Address Resolution Protocol (ARP) designed for resolving IP addresses to MAC addresses. All network devices that need to communicate in the network use broadcast ARP queries to find out other machines’ MAC addresses. 
+Протокол разрешения адресов (ARP) предназначен для преобразования IP-адресов в MAC-адреса. Все сетевые устройства, которым необходимо взаимодействовать в сети, используют широковещательные ARP-запросы для выяснения MAC-адресов других машин.
   
-Almost all arp spoofing tools use a [gratuitous](http://wiki.wireshark.org/Gratuitous_ARP) arp response. A Gratuitous ARP reply is a reply to without a ARP request. 
+Почти все средства arp-спуфинга используют [gratuitous](http://wiki.wireshark.org/Gratuitous_ARP) arp-ответ. Беспричинный ARP-ответ - это ответ на отсутствие ARP-запроса.
 
-Despite the effectiveness of gratuitous ARP, it is particularly insecure because it can be used to assure the remote host that the MAC address of a system on the same network has changed and to specify which address is used now.
+Несмотря на эффективность беспричинного ARP, он особенно небезопасен, поскольку с его помощью можно уверить удаленный хост в том, что MAC-адрес системы в той же сети изменился, и указать, какой адрес используется сейчас.
 
 <details>
-<summary>The typical example of arp spoofing attack</summary>
+<summary>Типичный пример атаки arp spoofing</summary>
 
-1. Before ARP-spoofing is performed, there are entries in the ARP tables of nodes A and B with IP and MAC addresses of each other. The information is transmitted between nodes A and B.
+1. Перед проведением ARP-спуфинга в ARP-таблицах узлов A и B имеются записи с IP - и MAC-адресами друг друга. Информация передается между узлами A и B.
 
-2. During the ARP-spoofing process, the С computer performing the attack sends ARP responses (without receiving requests = gratuitous arp) =>  
-* to node A: with the IP address of node B and the MAC address of node C;
-* to node B: with the IP address of node A and the MAC address of node C.
+2. В процессе ARP-спуфинга компьютер С, осуществляющий атаку, посылает ARP-ответы (без получения запросов = gratuitous arp) => 
+* узлу A: с IP-адресом узла B и MAC-адресом узла C; 
+узлу B: с IP-адресом узла A и MAC-адресом узла C.
 
-3. As the computers support gratuitous ARP, they modify their own ARP tables and place records where the MAC address of computer C is instead of the real MAC address of computer A and B.
+3. Поскольку компьютеры поддерживают безвозмездный ARP, они модифицируют свои собственные ARP-таблицы и помещают в них записи, в которых вместо реальных MAC-адресов компьютеров A и B указан MAC-адрес компьютера C.
 </details>
 
-Also there is a chance of successful attack in another way. When you will monitor the arp activity in the network segment and suddenly notice the victim's  arp request, you can try send the arp reply to victim faster than addressee of that request. Some vendors can accept this trick. 
+Также существует вероятность успешной атаки и другим способом. Когда вы будете наблюдать за arp-активностью в сегменте сети и вдруг заметите arp-запрос жертвы, вы можете попробовать отправить arp-ответ жертве быстрее, чем адресат этого запроса. Некоторые производители могут принять этот прием. 
 
 **Attack tools:**
 * [`bettercap`](https://www.bettercap.org/legacy/)` -T 10.10.10.10 -X --httpd --proxy-https --proxy`  
