@@ -67,7 +67,7 @@
 
 **Attack tools:**
 * [`bettercap`](https://www.bettercap.org/legacy/)` -T 10.10.10.10 -X --httpd --proxy-https --proxy`  
-The old version of the tool is simpler, but there is also a [new](https://github.com/bettercap/bettercap) fashionable one written in Go.
+Старая версия инструмента проще, но и в ней есть [new](https://github.com/bettercap/bettercap) модный, написанный на языке Go.
 **Note:** Bettercap have excelent sniffer inside.
 * [`arpspoof`](http://github.com/smikims/arpspoof)` -i eth0 -t 10.10.10.10`
 * [Intercepter-NG](http://sniff.su/) (Now it could be installed at Linux) 
@@ -75,7 +75,7 @@ The old version of the tool is simpler, but there is also a [new](https://github
 **Attack detection**
 
 * [arpwatch](https://ee.lbl.gov)  
-The  program monitors all ARP activity on the selected interfaces. When it notices an anomalies, such as a change in the MAC address while saving the IP address, or vice versa, it reports this to the syslog.
+Программа отслеживает всю ARP-активность на выбранных интерфейсах. Если программа замечает аномалии, например, изменение MAC-адреса при сохранении IP-адреса или наоборот, она сообщает об этом в syslog.
 * [XArp](http://www.chrismc.de/)  
 Arpwatch for Windows
 * [remarp](http://www.raccoon.kiev.ua/projects/remarp/)
