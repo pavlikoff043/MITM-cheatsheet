@@ -65,14 +65,14 @@
 
 Также существует вероятность успешной атаки и другим способом. Когда вы будете наблюдать за arp-активностью в сегменте сети и вдруг заметите arp-запрос жертвы, вы можете попробовать отправить arp-ответ жертве быстрее, чем адресат этого запроса. Некоторые производители могут принять этот прием. 
 
-**Attack tools:**
+**Средства атаки:**
 * [`bettercap`](https://www.bettercap.org/legacy/)` -T 10.10.10.10 -X --httpd --proxy-https --proxy`  
 Старая версия инструмента проще, но и в ней есть [new](https://github.com/bettercap/bettercap) модный, написанный на языке Go.
 **Note:** Bettercap have excelent sniffer inside.
 * [`arpspoof`](http://github.com/smikims/arpspoof)` -i eth0 -t 10.10.10.10`
 * [Intercepter-NG](http://sniff.su/) (Now it could be installed at Linux) 
 
-**Attack detection**
+**Обнаружение атак**
 
 * [arpwatch](https://ee.lbl.gov)  
 Программа отслеживает всю ARP-активность на выбранных интерфейсах. Если программа замечает аномалии, например, изменение MAC-адреса при сохранении IP-адреса или наоборот, она сообщает об этом в syslog.
@@ -82,72 +82,72 @@ Arpwatch for Windows
 Arpwatch via SNMP
 
 
-**Attack prevention**
+**Предотвращение атак**
 
-* Manual ARP tables  
-It has limitation because it will cause difficulties in network scalability. And for wireless network this is a challenge and almost like impossible.
+* Ручные ARP-таблицы   
+Она имеет ограничения, так как вызывает трудности с масштабируемостью сети. А для беспроводной сети это является сложной задачей, практически невозможной.
 
 * Patching  
-Utilities such as Anticap and Antidote can play a vital role in preventing ARP spoofing where Anticap prevent updating the ARP cache with different MAC with the existing ARP cache which actually prevent the ARP spoofing but it violates the ARP protocol specification which indeed a problem where on the other hand Antidote prevents the ARP poisoning slightly different way. It analyzes the newly received ARP reply with the existing cache. If the new cache differs with the previous then it look for the MAC address if it still alive. If it found the previous cache MAC address alive, rejects the new one and it adds the attacker MAC address in the list of banned MAC address to prevent further attempts from the ARP poisoning on the same target computer.
+Такие утилиты, как Anticap и Antidote, играют важную роль в предотвращении ARP-спуфинга. Anticap предотвращает обновление ARP-кэша с различными MAC-адресами по сравнению с существующим ARP-кэшем, что действительно предотвращает ARP-спуфинг, но при этом нарушается спецификация протокола ARP, что действительно является проблемой, а Antidote предотвращает ARP-отравление несколько другим способом. Он анализирует вновь полученный ARP-ответ с существующим кэшем. Если новый кэш отличается от предыдущего, то он ищет MAC-адрес, если тот еще жив. Если MAC-адрес из предыдущего кэша жив, то он отвергает новый и добавляет MAC-адрес злоумышленника в список запрещенных MAC-адресов для предотвращения дальнейших попыток ARP-травления на том же целевом компьютере.
 
-* Creating a VLAN on the switch  
-A VLAN is created on the switch that contains only the switch itself and a specific network device.
+* Создание VLAN на коммутаторе  
+На коммутаторе создается VLAN, содержащая только сам коммутатор и конкретное сетевое устройство.
 
-* Creating encrypted connections  
-This method is also suitable for public networks, because all traffic is encrypted and it is impossible to intercept any user data.
+* Создание зашифрованных соединений  
+Этот метод также подходит для публичных сетей, поскольку весь трафик шифруется и перехватить данные пользователя невозможно.
 
 * DAI  
-Dynamic ARP inspection in cisco systems helps prevent the man-in-the-middle attacks by not relaying invalid or gratuitous ARP replies out to other ports in the same VLAN. Dynamic ARP inspection intercepts all ARP requests and all replies on the untrusted ports. Each intercepted packet is verified for valid IP-to-MAC bindings via DHCP snooping. Denied ARP packets are either dropped or logged by the switch for auditing so ARP poisoning attacks are stopped. Incoming ARP packets on the trusted ports are not inspected. 
+Динамическая проверка ARP в системах cisco позволяет предотвратить атаки типа "человек посередине", не передавая недопустимые или необоснованные ARP-ответы на другие порты в той же VLAN. Динамическая ARP-инспекция перехватывает все ARP-запросы и все ответы на недоверенных портах. Каждый перехваченный пакет проверяется на наличие корректной привязки IP-адреса к MAC-адресу с помощью DHCP snooping. Отклоненные ARP-пакеты либо отбрасываются, либо регистрируются коммутатором для аудита, что позволяет пресекать атаки ARP poisoning. Входящие ARP-пакеты на доверенных портах не проверяются. 
 
 > Related links  
 [How ARP works](https://www.tummy.com/articles/networking-basics-how-arp-works/)
 
 ### STP(RSTP, PVSTP, MSTP) spoofing
-**Сomplexity:** High  
-**Relevance:** Moderate  
-**Description:**  
-The spanning tree protocol is designed to detect and prevent loops in the network if there are redundant paths between the switches.
+**Сложность:** Высокая  
+**Актуальность:** Умеренная  
+**Описание:**  
+Протокол STP (spanning tree) предназначен для обнаружения и предотвращения петель в сети при наличии избыточных путей между коммутаторами.
 
-Anyone who can emulate a device with a (lower) root switch identifier (by connecting a new virtual device with a lower priority or using the STP packet generation tool) can partially or completely intercept the virtual network traffic. Typically, an attacker does not have a physical connection with two switches, so the described attack method is hardly possible. However, in wireless networks, the situation is changing, since the cable connection (socket in the office) and the wireless connection (access point) can end on different switches.
+Тот, кто сможет эмулировать устройство с (более низким) идентификатором корневого коммутатора (подключив новое виртуальное устройство с более низким приоритетом или используя инструмент генерации пакетов STP), может частично или полностью перехватить трафик виртуальной сети. Как правило, у злоумышленника нет физического соединения с двумя коммутаторами, поэтому описанный метод атаки вряд ли возможен. Однако в беспроводных сетях ситуация меняется, поскольку кабельное соединение (розетка в офисе) и беспроводное соединение (точка доступа) могут заканчиваться на разных коммутаторах.
 
-**Attack tools**  
-Caution: Often this type of attack leads to a denial of service.
+**Инструменты нападения**
+Внимание: Часто данный тип атаки приводит к отказу в обслуживании.
 
 * [`yersinia`](https://github.com/tomac/yersinia)` –G`
-Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
-The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`.
+Yersinia имеет графический интерфейс и интерактивную консоль, необходимо выбрать сетевые интерфейсы и запустить MITM-атаку.
+Графический интерфейс работает нестабильно, поэтому можно воспользоваться интерактивным интерфейсом: `yersinia –I`.
 * [`ettercap`](http://ettercap.github.lo/ettercap/downloads.html)  
-One more tool for Linux. You need to select the interfaces, then tap "stp mangier" plugin and start it.
+Еще один инструмент для Linux. Необходимо выбрать интерфейсы, затем нажать на плагин "stp mangier" и запустить его.
 
-**Defence technics**  
-* Disabling STP on access ports (to stop recieve BDPU from users), enable port security on all user ports, and restricting physical access to network equipment.
+**Техника защиты**  
+* Отключение STP на портах доступа (для прекращения приема BDPU от пользователей), включение защиты портов на всех пользовательских портах, а также ограничение физического доступа к сетевому оборудованию.
 * [configuration tools](https://community.cisco.com/t5/networking-documents/spanning-tree-protection/ta-p/3116493) that protect STP (Cisco).
 
-### NDP spoofing
-**Сomplexity:** Moderate  
-**Relevance:** Close to None  
-**Description:**  
-**Attack tools**  
-**Defence technics**  
+### NDP spoofing Подмена ПНР
+**Сложность:** Умеренная  
+**Актуальность:** Близко к нулю  
+**Описание:**  
+**Средства атаки**  
+**Техника защиты**  
 
 ### VLAN hopping
-**Сomplexity:** Moderate  
-**Relevance:** None  
-**Description:**  
-A virtual LAN (Local Area Network) is a logical subnetwork that can group together a collection of devices from different physical LANs. Larger business computer networks often set up VLANs to re-partition their network for improved traffic management.
+**Сложность:** Умеренная  
+**Актуальность:** Нет  
+**Описание:**  
+Виртуальная локальная сеть (LAN) - это логическая подсеть, объединяющая устройства из разных физических локальных сетей. В крупных бизнескомпьютерных сетях часто создаются виртуальные локальные сети для переразделения сети с целью улучшения управления трафиком.
 
-[VLANs](https://en.wikipedia.org/wiki/Virtual_LAN) work by applying tags to network frames and handling these tags in networking systems – creating the appearance and functionality of network traffic that is physically on a single network but acts as if it is split between separate networks. 
+[VLANs](https://en.wikipedia.org/wiki/Virtual_LAN) работают путем наложения меток на сетевые кадры и обработки этих меток в сетевых системах, создавая видимость и функциональность сетевого трафика, который физически находится в одной сети, но ведет себя так, как будто он разделен между отдельными сетями. 
 
-VLAN hopping is a common name for attacks that involve access to the VLAN, which was initially (before the attack) unavailable to the attacker.
+VLAN hopping - это общее название атак, предполагающих доступ к VLAN, которая изначально (до атаки) была недоступна злоумышленнику.
 
 <details>
-<summary>It could be performed in two ways: </summary>
+<summary>Она может быть выполнена двумя способами: </summary>
 
-1. The primary VLAN Hopping attack (using [DTP](https://en.wikipedia.org/wiki/Dynamic_Trunking_Protocol))  
-Works only on old Cisco switches.  
-An attacker acts as a switch in order to trick a legitimate switch into creating a trunking link between them. Packets from any VLAN are allowed to pass through a trunking link. Once the trunk link is established, the attacker then has access to traffic from any VLAN. This method is only successful when the legitimate switch is configured to negotiate a trunk. This occurs when an interface is configured with either "dynamic desirable", "dynamic auto" or "trunk" mode. If the target switch has one of those modes configured, the attacker then can generate a DTP message from their computer and a trunk link can be formed.
+1. Основная атака VLAN Hopping (с использованием [DTP](https://en.wikipedia.org/wiki/Dynamic_Trunking_Protocol))  
+Работает только на старых коммутаторах Cisco.  
+Злоумышленник выступает в роли коммутатора, чтобы обманом заставить легитимный коммутатор создать между ними транкинговое соединение. По транковому каналу могут проходить пакеты из любой VLAN. После создания магистрального канала злоумышленник получает доступ к трафику любой VLAN. Данный метод является успешным только в том случае, если легитимный коммутатор настроен на согласование транка. Это происходит, когда интерфейс сконфигурирован в режиме "dynamic desirable", "dynamic auto" или "trunk". Если на целевом коммутаторе настроен один из этих режимов, злоумышленник может сгенерировать DTP-сообщение со своего компьютера и создать магистральный канал.
 
-2. *Double tagging* occurs when an attacker adds and modifies tags on an Ethernet frame to allow the sending of packets through any VLAN. This attack takes advantage of how many switches process tags. Most switches will only remove the outer tag and forward the frame to all native VLAN ports. With that said, this method is only successful if the attacker belongs to the native VLAN of the trunk link. Another important point is, this attack is strictly one way as it is impossible to encapsulate the return packet. </details>
+2. Атака *Двойная метка* происходит, когда злоумышленник добавляет и изменяет метки в кадре Ethernet, позволяя пересылать пакеты через любую VLAN. Эта атака использует преимущества обработки меток многими коммутаторами. Большинство коммутаторов удаляют только внешнюю метку и пересылают кадр на все порты собственной VLAN. При этом данный метод будет успешным только в том случае, если атакующий принадлежит к "родной" VLAN магистрального канала. Еще один важный момент: данная атака является строго односторонней, поскольку невозможно инкапсулировать обратный пакет. </details>
 
 [The Exploit-db doc](https://www.exploit-db.com/docs/english/45050-vlan-hopping-attack.pdf)  
 [The Guide with illustrations and video](https://networklessons.com/cisco/ccnp-switch/vlan-hopping)  
@@ -155,74 +155,76 @@ An attacker acts as a switch in order to trick a legitimate switch into creating
 [In-depth article](https://learningnetwork.cisco.com/blogs/vip-perspectives/2019/07/12/vlan1-and-vlan-hopping-attack)  
 
 
-**Attack tools**
+**Средства атаки**
 
 * [`yersinia`](https://github.com/tomac/yersinia)` –G`
-Yersinia has a graphical interface and an interactive console, you need to select network interfaces and launch a MITM attack.  
-The graphical interface does not work stably, so you can use the interactive interface: `yersinia –I`. 
+Yersinia имеет графический интерфейс и интерактивную консоль, в которой необходимо выбрать сетевые интерфейсы и запустить MITM-атаку.  
+Графический интерфейс работает нестабильно, поэтому можно воспользоваться интерактивным интерфейсом: `yersinia –I`. 
 
 * [Scapy](https://scapy.net/)  
-Scapy is a Python program that enables the user to send, sniff and dissect and forge network packets. It can be used to create the specially crafted frames needed for processing this attack.
+Scapy - это программа на языке Python, позволяющая пересылать, обнюхивать, вскрывать и подделывать сетевые пакеты. С ее помощью можно создавать специально созданные кадры, необходимые для обработки данной атаки.
 
 * [`dtp-spoof.py`](https://github.com/fleetcaptain/dtp-spoof)` -i eth0` sends a DTP Trunk packet out eth0 using eth0's mac address
-DTP-spoof is a security tool to test the Dynamic Trunking Protocol (DTP) configuration of switches. If the target switch is configured to negotiate the port mode, you can potentially set the target switch's port to Trunk mode, thereby gaining access to additional VLANs.  
-**Defence technics**
+DTP-spoof - это инструмент безопасности для проверки конфигурации протокола Dynamic Trunking Protocol (DTP) коммутаторов. Если целевой коммутатор настроен на согласование режима работы порта, то потенциально можно перевести порт целевого коммутатора в режим Trunk, получив таким образом доступ к дополнительным VLAN.
 
-1. The primary VLAN Hopping attack (using DTP)  
-It can only be performed when interfaces are set to negotiate a trunk. To prevent the VLAN hopping from being exploited, we can do the below mitigations:  
-	+ Ensure that ports are not set to negotiate trunks automatically by disabling DTP
-	+ Do not configure any access points with either of the following modes: "dynamic desirable", "dynamic auto", or "trunk".
-	+ Shutdown all interfaces that are not currently in use.
+**Техника защиты**
 
-2. Double Tagging  
-To prevent a Double Tagging attack, keep the native VLAN of all trunk ports different from user VLANs.
+1. Основная атака VLAN Hopping (с использованием DTP).  
+Она может быть выполнена только в том случае, если интерфейсы настроены на согласование транка. Чтобы предотвратить использование VLAN hopping, можно предпринять следующие меры:  
+	+ Убедитесь, что порты не настроены на автоматическое согласование транков, отключив DTP.
+	+ Не настраивайте точки доступа в одном из следующих режимов: "dynamic desirable", "dynamic auto" или "trunk".
+	+ Отключите все интерфейсы, которые в данный момент не используются.
+
+2. Двойная метка  
+Для предотвращения атаки с использованием двойной метки необходимо, чтобы собственные VLAN всех магистральных портов отличались от пользовательских VLAN.
 
 
 ## L3
 ### SLAAC Attack 
 
-**Complexity:** Low  
-**Relevance:** High  
-**Description**  
-SLAAC - Stateless Address AutoConfiguration. SLAAC os the one of ways of host network configuration, like DHCPv4. SLAAC provides an IPv6 host prefix value, prefix length and default gateway link-local address without DHCPv6-server which keeps state of the provided addresses (thats why it's called stateless). The SLAAC process is performed during SLAAC-only and SLAAC+DHCPv6 Stateless configuration. 
+**Сложность:** Низкая  
+**Актуальность:** Высокая  
+**Описание**
 
-The main problem of this process is that the attacker can craft the rogue RA to give the hosts his own configuration (e.g., to become a default router on the link). All the hosts, which have IPv6 enabled, are potentially vulnerable to SLAAC attacks. Especially in cases, when IPv6 is enabled is OS by default but organization hasn't deployed IPv6 in any form.
+SLAAC - Stateless Address AutoConfiguration. SLAAC является одним из способов конфигурирования сети хоста, подобно DHCPv4. SLAAC предоставляет хосту IPv6 значение префикса, длину префикса и локальный адрес шлюза по умолчанию без участия DHCPv6-сервера, который хранит состояние предоставленных адресов (поэтому он и называется stateless). Процесс SLAAC выполняется при конфигурировании SLAAC-only и SLAAC+DHCPv6 Stateless. 
 
-Another threat in RA comes from the ability to send DNS configuration over RA, so that attacker can spoof it, too: [RFC 6106 - IPv6 Router Advertisement Options for DNS Configuration](http://tools.ietf.org/html/rfc6106).  
+Основная проблема этого процесса заключается в том, что злоумышленник может подстроить неавторизованный RA так, чтобы передать хостам свою конфигурацию (например, стать маршрутизатором по умолчанию на канале). Все хосты, у которых включен IPv6, потенциально уязвимы для SLAAC-атак. Особенно в тех случаях, когда IPv6 включен в ОС по умолчанию, но организация не развернула IPv6 в каком-либо виде.
+
+Другая угроза в RA исходит от возможности передачи конфигурации DNS по RA, так что злоумышленник может подделать и ее: [RFC 6106 - IPv6 Router Advertisement Options for DNS Configuration](http://tools.ietf.org/html/rfc6106).  
 
 **Attack Tools**  
 
 * [suddensix](https://github.com/Neohapsis/suddensix)  
-It's a script which presets tools used by the security researcher Alec Waters in his [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/). The script is a little bit outdated and working well on Ubuntu 12.04 LTS. It is better to create separated VM for it.
+Это скрипт, который предустанавливает инструменты, используемые исследователем безопасности Алеком Уотерсом в его [post about SLAAC attack](https://resources.infosecinstitute.com/slaac-attack/). Скрипт немного устарел и хорошо работает на Ubuntu 12.04 LTS. Лучше создать для него отдельную виртуальную машину.
 
 * [EvilFOCA](https://github.com/ElevenPaths/EvilFOCA)  
-Amazing tool for windows for IPv6 MITM attacks. A C#-written tool with GUI which allows IPv6 attacks, including SLAAC attack, fake DHCPv6 and even SLAAC DoS which means announcing fake routes in multiple RAs on link.
+Удивительный инструмент для windows для IPv6 MITM-атак. Инструмент, написанный на C#, с графическим интерфейсом, позволяющий осуществлять IPv6-атаки, включая SLAAC-атаки, поддельные DHCPv6 и даже SLAAC DoS, что означает объявление поддельных маршрутов в нескольких RA на линии связи.
 
 * [THC-IPv6](https://github.com/vanhauser-thc/thc-ipv6)  
-A written in C IPv6 attack toolkit which, among many other options, allows to perform attacks with RAs.
+Написанный на языке C инструментарий для атак на IPv6, который, помимо многих других возможностей, позволяет осуществлять атаки с использованием RA.
  
-**Defence technics**  
-The simpliest way to mitigate SLAAC-attacks is to just disable IPv6 on all hosts in the network. But this solution is only suitable for networks where IPv6 stack is not in use and was enabled just due to misconfiguration.  
+**Техника защиты** 
+Самый простой способ защиты от SLAAC-атак - просто отключить IPv6 на всех хостах сети. Но это решение подходит только для сетей, в которых стек IPv6 не используется и был включен только из-за неправильной конфигурации.  
 
 <details>
- <summary>Vendors implementation</summary>
+ <summary>Внедрение у вендоров</summary>
 
-Cisco has implemented a technology "IPv6 First Hop Security" which is included in Catalyst 6500, 4500, 3850, 3750 and 2960 Series Switches, 7600 Series Routers and Cisco 5700 Series Wireless LAN Controllers. There's RA Guard, DHCP Guard and also IPv6 Snooping implemented. More information can be found [here](https://www.cisco.com/c/dam/en/us/products/collateral/ios-nx-os-software/enterprise-ipv6-solution/aag_c45-707354.pdf).  
+Компания Cisco реализовала технологию "IPv6 First Hop Security", которая включена в коммутаторы Catalyst серий 6500, 4500, 3850, 3750 и 2960, маршрутизаторы серии 7600 и контроллеры беспроводных локальных сетей Cisco серии 5700. Реализованы RA Guard, DHCP Guard, а также IPv6 Snooping. Более подробную информацию можно найти [here](https://www.cisco.com/c/dam/en/us/products/collateral/ios-nx-os-software/enterprise-ipv6-solution/aag_c45-707354.pdf).  
 
-Juniper has implemented RA Guard. There is one strange fact: on the `router-advertisement-guard` statement [documentation page](https://www.juniper.net/documentation/en_US/junos/topics/reference/configuration-statement/router-advertisement-guard-edit-fo.html) it's mentioned that only EX Series platforms are supported. But on the page of [Configuring Stateless IPv6 Router Advertisement Guard](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/port-security-ra-guard.html) and [Configuring Stateful IPv6 Router Advertisement Guard](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/port-security-ra-guard-stateful.html) it's mentioned that both EX and some of QFX Series platforms support RA Guard: EX2300(15.1X53-D56), EX2300-VC(15.1X53-D56), EX3400(15.1X53-D55), EX3400-VC(15.1X53-D55), EX4300(16.1R1), EX4300-VC(16.1R1), EX4300 Multigigabit(18.2R1), EX4600(18.3R1), EX4600-VC(18.3R1) and QFX5100(18.2R1), QFX5110(17.2R1), QFX5200(18.2R1).
+Компания Juniper реализовала RA Guard. Есть один странный факт: в утверждении `router-advertisement-guard`  [documentation page](https://www.juniper.net/documentation/en_US/junos/topics/reference/configuration-statement/router-advertisement-guard-edit-fo.html) упоминается, что поддерживаются только платформы серии EX. Однако на странице [Configuring Stateless IPv6 Router Advertisement Guard](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/port-security-ra-guard.html) and [Configuring Stateful IPv6 Router Advertisement Guard](https://www.juniper.net/documentation/en_US/junos/topics/task/configuration/port-security-ra-guard-stateful.html) упоминается, что платформы серии EX и некоторые платформы серии QFX поддерживают RA Guard: EX2300(15.1X53-D56), EX2300-VC(15.1X53-D56), EX3400(15.1X53-D55), EX3400-VC(15.1X53-D55), EX4300(16.1R1), EX4300-VC(16. 1R1), EX4300 Multigigabit(18.2R1), EX4600(18.3R1), EX4600-VC(18.3R1) и QFX5100(18.2R1), QFX5110(17.2R1), QFX5200(18.2R1).
 
-Mikrotik, unfortunately, hasn't implemented such technologies. Theres's a [presentation](https://mum.mikrotik.com/presentations/PL12/maia.pdf) from Mikrotik Users' Meeting and author advised just to isolate Layer 2 segment of network. No other valuable advices were found. The problem was also [mentioned](https://forum.mikrotik.com/viewtopic.php?t=68004) on the Mikrotik users' forum in 2012. 
+Mikrotik, к сожалению, не реализовал подобные технологии. Существует [presentation](https://mum.mikrotik.com/presentations/PL12/maia.pdf) с Mikrotik Users' Meeting и автор посоветовал просто изолировать сегмент сети второго уровня. Других ценных советов найти не удалось. Проблема также была [mentioned](https://forum.mikrotik.com/viewtopic.php?t=68004) на форуме пользователей Mikrotik в 2012 году. 
 
-Unfortunately, there are methods of traffic analysis hardening, which breaks performance of protections techniques (e.g. hiding the RA in Hob-By-Hop header). There is a [draft RFC](https://tools.ietf.org/html/draft-gont-v6ops-ra-guard-evasion-01) which describes the evasion of RA Guard. The evasion technique is based on usage of IPv6 packet fragmentation. Some additional recommendations on fragmentation are presented in [RFC 6980 - Security Implications of IPv6 Fragmentation with IPv6 Neighbor Discovery](http://tools.ietf.org/html/rfc6980).  
+К сожалению, существуют методы усиления анализа трафика, которые нарушают работоспособность методик защиты (например, скрытие RA в заголовке Hob-By-Hop). Существует  [draft RFC](https://tools.ietf.org/html/draft-gont-v6ops-ra-guard-evasion-01) в котором описывается обход RA Guard. Техника обхода основана на использовании фрагментации пакетов IPv6. Некоторые дополнительные рекомендации по фрагментации представлены в [RFC 6980 - Security Implications of IPv6 Fragmentation with IPv6 Neighbor Discovery](http://tools.ietf.org/html/rfc6980).  
 </details>
 
 <details>
- <summary>10 basic ideas to solve the problem</summary>
+ <summary>10 основных идей для решения проблемы</summary>
 
-[RFC 6104 - Rogue IPv6 Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) presents 10 basic ideas to solve the problem of Rogue RA. So the section above is just a brief overview of what IETF has to offer as a solution for today:  
+[RFC 6104 - Rogue IPv6 Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104) представлены 10 основных идей по решению проблемы Rogue RA. Таким образом, приведенный выше раздел является лишь кратким обзором того, что IETF может предложить в качестве решения на сегодняшний день:  
 
-1. *Manual Configuration* of IPv6 address and disabling autoconfiguration for RA messages to be ignored.   
-For Linux systems `net.ipv6.conf.*` values can be changed:  
+1. *Ручная конфигурация* IPv6-адреса и отключение автоконфигурации для игнорирования RA-сообщений.   
+Для Linux-систем значения `net.ipv6.conf.*` могут быть изменены:  
 	```
     net.ipv6.conf.all.autoconf = 0  
 	net.ipv6.conf.all.accept_ra = 0  
@@ -230,39 +232,39 @@ For Linux systems `net.ipv6.conf.*` values can be changed:
 	net.ipv6.conf.all.accept_ra=0  
 	net.ipv6.conf.eth0.accept_ra=0 
     ```
-	For Mac-OS there is a [guide for IPv6 hardening](http://www.ipv6now.com.au/primers/ERNW_Hardening_IPv6_MacOS-X_v1_0.pdf). But the author faced a problem with parameter responsible for acceptance of RAs in Mac-OS: net.inet6.ip6.accept_rtadv must be set to 0 but its impossible. It's called deprecated in kernel source code and is defined as read-only, but Mac-OS keeps accepting RAs. So, in Mac-OS it's not possible to disable RAs through sysctl. The one thing that can be done is setting up the maximum number of acceptable prefixes and maximum number of acceptable default routers to 1.  
+	For Mac-OS there is a [guide for IPv6 hardening](http://www.ipv6now.com.au/primers/ERNW_Hardening_IPv6_MacOS-X_v1_0.pdf). Однако автор столкнулся с проблемой, связанной с параметром, отвечающим за прием RA в Mac-OS: net.inet6.ip6.accept_rtadv должен быть установлен в 0, но это невозможно. В исходном коде ядра он назван deprecated и определен как read-only, но Mac-OS продолжает принимать RA. Таким образом, в Mac-OS невозможно отключить RA через sysctl. Единственное, что можно сделать, это установить максимальное число допустимых префиксов и максимальное число допустимых маршрутизаторов по умолчанию равным 1.  
 
-	For Windows there is a command which can be run under admininstrator to disable autoconfoguration:
+	Для Windows существует команда, которую можно выполнить под администратором, чтобы отключить автоконфигурацию:
 	```
 	netsh interface ipv6 set interface "Local Area Connection" routerdiscovery=disabled  
 	```
 
-2. *RA Snooping* in L2 switches similarly to DHCP snooping, so that RAs from wrong sources can be dropped.  
+2. *RA Snooping* в коммутаторах L2 аналогично DHCP snooping, чтобы RA из неправильных источников могли быть отброшены.  
 
-3. *ACLs on Managed Switches* can be used if there is a mechanism of ACL on a switch which can block ICMPv6 RA outbound on user ports(used to access LAN by users). So if such ACL is possible to implement on a used platform, no user on LAN will be able to broadcast/unicast RA.  
+3. *ACL на управляемых коммутаторах* можно использовать, если на коммутаторе существует механизм ACL, который может блокировать исходящие ICMPv6 RA на пользовательских портах (используемых для доступа пользователей к локальной сети). Таким образом, если такой ACL можно реализовать на используемой платформе, то ни один пользователь в локальной сети не сможет транслировать/уникально передавать RA.  
 
-4. *SEcure Neighbor Discovery - SEND* - [RFC 3971](https://tools.ietf.org/html/rfc3971) is a protocol, which offers the use of public key cryptography to secure the communications between router and hosts.  
+4. *SEcure Neighbor Discovery - SEND* - [RFC 3971](https://tools.ietf.org/html/rfc3971) это протокол, который предлагает использовать криптографию с открытым ключом для защиты связи между маршрутизатором и хостами.  
 
-5. *Router Preference Option* - this method is only suitable in case of accidental RAs from users. The idea is that administrator can set "High" level of preference in all legitimate RAs so that IPv6 hosts wont overwrite the configuration received by such RAs if they have "Medium" or "Low" preference level. The Router Preference Option is present in [RFC 4191 - Default Router Preferences and More-Specific Routes](https://tools.ietf.org/html/rfc4191).  
+5. *Router Preference Option* - этот метод применим только в случае случайных RA от пользователей. Идея заключается в том, что администратор может установить "высокий" уровень предпочтения во всех легитимных RA, чтобы узлы IPv6 не перезаписывали конфигурацию, полученную такими RA, если они имеют "средний" или "низкий" уровень предпочтения. Опция Router Preference Option присутствует в [RFC 4191 - Default Router Preferences and More-Specific Routes](https://tools.ietf.org/html/rfc4191).  
 
-6. *Rely on Layer 2 Admission Control* - the idea is based on relying on deployment of 802.1x so that attackers won't be able to join LAN to send RAs and perform attack.  
+6. *Rely on Layer 2 Admission Control* - идея основана на том, чтобы полагаться на развертывание 802.1x, чтобы злоумышленники не смогли присоединиться к локальной сети для отправки RA и проведения атаки.  
 
-7. *Using Host-Based Packet Filters* - if there is an ability to push configuration to users' machines, the host-based packet filters can be configured to accept RAs only from exact IPv6 addresses.  
+7. *Использование пакетных фильтров на базе хоста* - при наличии возможности передачи конфигурации на машины пользователей пакетные фильтры на базе хоста могут быть настроены на прием RA только с точных IPv6-адресов.  
 
-8. *Using an "Intelligent" Deprecation Tool* - the idea is to observe the link traffic for rogue RAs and to deprecate them for hosts by sending a deprecating RA with rogue router's address in it and router lifetime field set to 0. Attack the attack's traffic.  
+8. *Использование "интеллектуального" средства деприватизации* - идея состоит в том, чтобы наблюдать за трафиком канала связи на предмет наличия неавторизованных RA и деприватизировать их для хостов путем отправки деприватизирующего RA с адресом неавторизованного маршрутизатора в нем и полем времени жизни маршрутизатора, установленным в 0. Атаковать трафик атаки.  
 
-9. *Using Layer 2 Partitioning* - the idea is that if each user or system is partitioned into a different Layer 2 medium the impact if some rogue RA can be limited. This method causes software and hardware costs growing.  
+9. *Использование Layer 2 Partitioning* - идея заключается в том, что если каждый пользователь или система будут разделены на различные среды Layer 2, то влияние некоторых неавторизованных RA может быть ограничено. Этот метод приводит к росту затрат на программное и аппаратное обеспечение.  
 
-10. *Adding Default Gateway/Prefix Options to DHCPv6* - leaving SLAAC autoconfiguration for DHCPv6 autoconfiguration partly solves the problem of default gateways and prefixes sent by rogue RAs but also leads to problems with rogue DHCPv6 servers. The second problem is that RA is still used to inform hosts to use DHCPv6.  
+10. *Добавление опций шлюза/префикса по умолчанию в DHCPv6* - оставление автоконфигурации SLAAC для автоконфигурации DHCPv6 частично решает проблему шлюзов и префиксов по умолчанию, посылаемых неавторизованными RA, но также приводит к проблемам с неавторизованными серверами DHCPv6. Вторая проблема заключается в том, что RA по-прежнему используется для информирования хостов об использовании DHCPv6.  
 
-The [4th section of RFC 6104](https://tools.ietf.org/html/rfc6104#section-4) has a table which contains the ways of mitigation suitability for 2 cases of Rogue RA: administrator's mistake and user's mistake.
+The [4th section of RFC 6104](https://tools.ietf.org/html/rfc6104#section-4) имеется таблица, содержащая способы смягчения пригодности для двух случаев Rogue RA: ошибка администратора и ошибка пользователя.
 </details>
 
-**Related Monitoring Tools**  
-There are some tools, which can be helpful in rogue RA detection and monitoring:
+**Сопутствующие средства мониторинга**.  
+Существует ряд инструментов, которые могут быть полезны для обнаружения и мониторинга неавторизованных РА:
 
 * [NDPMon](http://ndpmon.sourceforge.net/)   
-Allows to choose the following configure options before compilation:  
+Позволяет выбрать следующие опции конфигурации перед компиляцией:  
 
 	`--enable-mac-resolv`  
 	  Determine the vendor by OUI in MAC-address.  
@@ -276,10 +278,10 @@ Allows to choose the following configure options before compilation:
 	  Post html reports (some web server required as nginx/apache).  
 
 * [Ramond](http://ramond.sourceforge.net/)  
-Allows to add MAC-address white list of determined legitimate routers, prefix used for 6to4, and unknown prefixes. Based on this configuration the tool monitors RA traffic to find rogue ones.
+Позволяет добавить в белый список MAC-адреса определенных легитимных маршрутизаторов, префикс, используемый для 6to4, и неизвестные префиксы. На основе этой конфигурации инструмент осуществляет мониторинг RA-трафика с целью поиска неавторизованных маршрутизаторов.
 
 * [6MoN](https://www.6monplus.it/)  
-Allows to monitor network state, watching the DAD process and NS messages. DAD stands for  Duplicate Address Discovery and it determines if there is and address duplication conflict on the network. NS stands for Neighbor Solicitation(ICMPv6 type 135) and is used to determine a neighbor on the link.
+Позволяет контролировать состояние сети, наблюдать за процессом DAD и сообщениями NS. DAD означает Duplicate Address Discovery и определяет наличие конфликта дублирования адресов в сети. NS означает Neighbor Solicitation (ICMPv6 тип 135) и используется для определения соседа по каналу связи.
 
 > Related RFCs   
 [RFC 6104 - Rogue IPv6 Router Advertisement Problem Statement](https://tools.ietf.org/html/rfc6104)  
@@ -293,12 +295,12 @@ Allows to monitor network state, watching the DAD process and NS messages. DAD s
 [Windows machines compromised by default configuration flaw in IPv6](https://resources.infosecinstitute.com/slaac-attack/)  
 [Why You Must Use ICMPv6 Router Advertisements](https://community.infoblox.com/t5/IPv6-CoE-Blog/Why-You-Must-Use-ICMPv6-Router-Advertisements-RAs/ba-p/3416)  
 
-### Hijacking HSRP (VRRP, CARP)
-**Сomplexity:** High  
-**Relevance:** High  
-**Description:**  
-**Attack tools**
-Scapy is the easiest way to create PoC and hijack active node status:
+### Перехват HSRP (VRRP, CARP)
+**Сложность:** Высокая  
+**Актуальность:** Высокая  
+**Описание:**  
+**Инструменты атаки**.
+Scapy - самый простой способ создания PoC и перехвата статуса активного узла:
 
 For HSRP:
 ```python
@@ -323,33 +325,33 @@ if __name__ == "__main__":
     vrrp = VRRP(vrid=1, priority=150, addrlist=["10.0.0.7", "10.0.0.8"], ipcount=2, auth1='cisco')
     send(ip/udp/vrrp, iface="eth1", inter=3, loop=1)
 ```
-**Defence technics**  
+**Техника защиты**  
 
-### Dynamic routing protocol spoofing (BGP)
-**Сomplexity:** High  
-**Relevance:** High  
-**Conditions:**  
-**Description:**  
-**Attack tools**  
+### Подмена протокола динамической маршрутизации (BGP)
+**Сложность:** Высокая  
+**Актуальность:** Высокая  
+**Условия:**  
+**Описание:**  
+**Инструменты атаки** 
 https://github.com/fredericopissarra/t50  
 **Defence technics**  
 
-### RIPv2 Routing Table Poisoning
-**Сomplexity:** Medium  
-**Relevance:** Medium  
-**Conditions:**  
-RIP implemented;  
-RIPv1 in use;  
-RIPv2 authentication disabled.  
-**Description:**  
-There are 3 versions of RIP:
-* *RIPv1*: the first version, described in [RFC 1058](https://tools.ietf.org/html/rfc1058);
-* *RIPv2*: the improved mainly by adding authentication mechanism version, described in [RFC 2453](https://tools.ietf.org/html/rfc2453);
-* *RIPv3* or *RIPng* (next generation): supports IPv6, described in [RFC 2080](https://tools.ietf.org/html/rfc2080).  
+### Отравление таблицы маршрутизации RIPv2
+**Сложность:** Средняя  
+**Актуальность:** Средняя  
+**Условия:**  
+RIP реализован;  
+Используется RIPv1;  
+аутентификация RIPv2 отключена.  
+**Описание:**  
+Существует 3 версии RIP:
+* *RIPv1*: первая версия, описанная в [RFC 1058](https://tools.ietf.org/html/rfc1058);
+* *RIPv2*: усовершенствованный в основном за счет добавления версии механизма аутентификации, описанной в [RFC 2453](https://tools.ietf.org/html/rfc2453);
+* *RIPv3* or *RIPng* (next generation): поддерживает протокол IPv6, описанный в [RFC 2080](https://tools.ietf.org/html/rfc2080).  
 
-The most widely implemented protocol is RIPv2. RIPv1 is not secure at all, as it doesn't support message authentication. There is a good [write up](https://digi.ninja/blog/rip_v1.php) on exploiting RIPv1 by injecting a fake route.  
+Наиболее широко реализованный протокол - RIPv2. RIPv1 вообще не является безопасным, поскольку не поддерживает аутентификацию сообщений. Существует хороший [write up](https://digi.ninja/blog/rip_v1.php) по эксплуатации RIPv1 путем инъекции фальшивого маршрута.  
 
-As specified in RFC 2453, RIPv2 router must exchange routing information every 30 seconds. The idea of attack is to send fake RIP Response messages, which contain the route an attacker needs to inject. Though, there is a special multicast for RIPv2 routers - 224.0.0.9, responses, sent as unicast can be accepted, too. This, for example may harden the detection of the attack, comparing to the case of multicast fake routing propagation. There is a good short [write up](https://microlab.red/2018/04/06/practical-routing-attacks-1-3-rip/) on exploting RIPv2 network with no RIPv2 authentication with Scapy usage example.  
+Как указано в RFC 2453, маршрутизатор RIPv2 должен обмениваться информацией о маршрутизации каждые 30 секунд. Суть атаки заключается в отправке поддельных сообщений RIP Response, содержащих маршрут, который злоумышленнику необходимо внедрить. Хотя для маршрутизаторов RIPv2 существует специальная многоадресная рассылка - 224.0.0.9, ответы, посланные как одноадресные, также могут быть приняты. Это, например, может затруднить обнаружение атаки, по сравнению со случаем распространения многоадресной поддельной маршрутизации. Существует хорошая короткая статья [write up](https://microlab.red/2018/04/06/practical-routing-attacks-1-3-rip/) о взломе RIPv2-сети без RIPv2-аутентификации на примере использования Scapy.  
 
 **Attack tools**  
 * [t50](https://gitlab.com/fredericopissarra/t50) - a multi-protocol tool for injecting traffic and for network penetration testing. Among many other protocols, it supports RIP.
